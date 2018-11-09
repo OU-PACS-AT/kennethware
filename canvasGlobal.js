@@ -24,7 +24,7 @@
 // Development version will be loaded in the following courses
 var iframeID,
     // Path to where the canvasCustomTools folder is located
-    klToolsPath = 'https://panther.outreach.ou.edu/kennethware/',
+    klToolsPath = 'https://dev-kennethware.outreach.ou.edu/',
     // Path to the tools_variables file
     klToolsVariablesFile = klToolsPath + 'js/tools_variables.js',
     // Path to additional_customization file
