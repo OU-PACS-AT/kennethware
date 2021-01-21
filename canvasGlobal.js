@@ -24,9 +24,10 @@
 // Development version will be loaded in the following courses
 var iframeID,
     // Path to where the canvasCustomTools folder is located
-    klToolsPath = 'https://dev-kennethware.outreach.ou.edu/',
+    klToolsPath = 'https://uat-kennethware.outreach.ou.edu/',
     // Path to the tools_variables file
     klToolsVariablesFile = klToolsPath + 'js/tools_variables.js',
+	klMasterControlsFile = klToolsPath + 'js/master_controls.js',
     // Path to additional_customization file
     klToolsAdditionalCustomizationFile = klToolsPath + 'js/additional_customization.js',
     klFontAwesomePath = '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css',
@@ -52,14 +53,15 @@ klGetCourseNum();
 // Pull in custom variables
 $.getScript(klToolsVariablesFile, function () {
     'use strict';
-    console.log("tools_variables.js loaded");
+    console.log("tools_variables.js loaded from UAT");
     // Additional Customization
     $.getScript(klToolsAdditionalCustomizationFile, function () {
-        console.log("additional_customization.js loaded");
+        console.log("additional_customization.js loaded from UAT");
         // Run code to initialize tools
         $.getScript(klToolsPath + "js/master_controls.js", function () {
-            console.log("master_controls.js loaded");
+            console.log("master_controls.js loaded from UAT");
         });
+
     });
 });
 

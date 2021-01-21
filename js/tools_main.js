@@ -225,8 +225,9 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     // Move the specified editor content to the top
     function klScrollToElement(targetElement) {
-        $(iframeID).contents().find(targetElement).get(0).scrollIntoView();
-        $('a:contains("HTML Editor")').get(0).scrollIntoView();
+		// Will Poillion - 2021-01-14 - scrollIntoView not a valid function on undefined (old RCE code)
+        //$(iframeID).contents().find(targetElement).get(0).scrollIntoView();
+        //$('a:contains("HTML Editor")').get(0).scrollIntoView();
     }
     // Adds class to connected section when mouse hovers over sortable lists
     function klBindHover() {
@@ -261,6 +262,12 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             $('#kl_tools_wrapper').prepend('<button class="kl_tools_hide btn btn-mini">Hide Design Tools <i class="icon-arrow-open-right"></i></button>');
             $('.kl_tools_hide').unbind('click').click(function () {
                 $('#kl_tools_wrapper').toggle('slide');
+				// Will Poillion - 2020-12-10 
+				// 	Since new RCE takes entire width of screen, needed to add css class
+				//	that shrinks editor width so KW tools aren't overlapping it. '
+				//-- This removes that css after hiding
+				$('#tinymce-parent-of-wiki_page_body').removeClass("new_rce_width_adjustment");
+				$('div.form-actions').removeClass("new_rce_width_adjustment");
             });
         }
     }
@@ -299,7 +306,8 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         $('.kl_mce_editor_view .active').each(function () {
             $(iframeID).contents().find('body').addClass($(this).attr('rel'));
         });
-        $('a:contains("HTML Editor")').get(0).scrollIntoView();
+		// Will Poillion - 2021-01-14 - scrollIntoView not a valid function on undefined (old RCE code)
+        //$('a:contains("HTML Editor")').get(0).scrollIntoView();
     }
     function klDisplayTypes() {
         $('.kl_mce_section_view, .kl_mce_labels_view').unbind("click").click(function (e) {
@@ -5905,11 +5913,15 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         } else {
             activeSection = numSections - 1;
         }
-        $('#kl_tools_accordion').accordion({
+        
+		// Will Poillion - 2020-12-10
+		//  .accordion not a valid function
+		$('#kl_tools_accordion').accordion({
             heightStyle: 'content',
             icons: icons,
             active: activeSection //which panel is open by default
         });
+		
         $('#toggle').button().click(function () {
             if ($('#accordion').accordion('option', 'icons')) {
                 $('#accordion').accordion('option', 'icons', null);
@@ -5930,7 +5942,8 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         setTimeout(function () {
             if ($(iframeID).length > 0) {
                 klAddStyletoIframe();
-                $('a:contains("HTML Editor")').get(0).scrollIntoView();
+				// Will Poillion - 2021-01-14 - scrollIntoView not a valid function on undefined (old RCE code)
+                //$('a:contains("HTML Editor")').get(0).scrollIntoView();
                 klCustomCSSCheck();
                 klDisplayTypes();
                 klSetDisplay();
@@ -6039,7 +6052,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 //    PAGE LOAD FUNCTIONS            //
 ///////////////////////////////////////
     $(document).ready(function () {
-        if ($('#editor_tabs').length > 0) {
+        //if ($('#editor_tabs').length > 0) {
             // Add button to trigger tools
             if ($('#kl_tools_accordion').length === 0) {
                 $('body').prepend('<a href="#" class="btn btn-primary kl_add_tools" style="position: absolute; top: 5px; right: 10px;"><i class="fa fa-rocket" style="font-size: 18px;"></i> Launch Design Tools</a>');
@@ -6063,9 +6076,14 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                         $('#kl_tools_wrapper').toggle('slide');
                     }
 
+					// Will Poillion - 2020-12-10 
+					// 	Since new RCE takes entire width of screen, needed to add css class
+					//	that shrinks editor width so KW tools aren't overlapping it. '
+					$('#tinymce-parent-of-wiki_page_body').addClass("new_rce_width_adjustment");
+					$('div.form-actions').addClass("new_rce_width_adjustment");
                 });
             }
-        }
+        //}
         // Make some changes before page is saved
         $('.submit').click(function () {
             // Handle when a box was unchecked but the remove button wasn't clicked

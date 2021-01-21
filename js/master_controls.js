@@ -52,6 +52,7 @@ function klAfterContentLoaded() {
 // Check to see if the page content has loaded yet
 function klPageContentCheck(klContentWrapperElement) {
     'use strict';
+	console.log("klPageContentCheck()");
     var contentLoaded = false;
     // Content Pages
     if ($('.show-content').length > 0 && $('.show-content').children().length > 0) {
@@ -102,7 +103,7 @@ function klTriggerToolsCheck() {
     'use strict';
     var klLoadTools = false,
         userID = ENV.current_user_id;
-    console.log('klTriggerToolsCheck()');
+    console.log('KW UAT - klTriggerToolsCheck()');
     try {
         // Only proceed if this passes the limits on the tools
         if (klToolsVariables.klLimitByRole === false && klToolsVariables.klLimitByUser === false) {
@@ -128,24 +129,28 @@ function klTriggerToolsCheck() {
                 }
             });
         }
-        console.log("Load Tools: " + klLoadTools);
+        console.log("KW UAT - Load Tools: " + klLoadTools);
         if (klLoadTools) {
             // First condition is for syllabus
             if ($('.kl_add_tools').length > 0) {
                 $('.kl_add_tools').show();
+			console.log("KW UAT - 1");
             // If it is not the syllabus check for editor
             } else if ($('iframe[title^="Rich"]').contents().find('#tinymce').length > 0) {
                 // console.log(tinyMCE.activeEditor.id);
+				console.log("KW UAT - 2");
                 iframeID = '#' + tinyMCE.activeEditor.id + '_ifr';
                 klLoadToolsDependencies();
             } else if ($('iframe[title^="Rich"]').contents().find('#tinyrce').length > 0) {
                 iframeID = '#' + window.tinyrce.activeEditor.id + '_ifr';
                 klLoadToolsDependencies();
+				console.log("KW UAT - 3");
             } else {
                 // console.log('Check Again');
                 setTimeout(function () {
                     klTriggerToolsCheck();
                 }, 500);
+				console.log("KW UAT - 4");
             }
         }
     } catch (err) {
